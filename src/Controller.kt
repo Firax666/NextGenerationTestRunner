@@ -10,11 +10,12 @@ const val NUMBERS_COUNT = 100
 
 class VerificationFailedException(message: String) : Exception(message)
 
-fun main() {
+fun main() {    var process: Process? = null
+
     try {
 
         val processBuilder = ProcessBuilder("java", "-cp", classpath, PROGRAM_A_NAME)
-        val process = processBuilder.start()
+        process = processBuilder.start()
 
         val writer = BufferedWriter(OutputStreamWriter(process.outputStream))
         val reader = BufferedReader(InputStreamReader(process.inputStream))
@@ -29,7 +30,6 @@ fun main() {
         if (reader.readLine() == "Hi")
             println("Correct Response. PseudoRng program Verified.")
         else {
-            process.destroy()
             throw VerificationFailedException("Wrong response. The pseudoRng program failed verification")
         }
 
@@ -42,6 +42,7 @@ fun main() {
 
         writeToProcess("Shutdown")
         writer.close()
+        reader.close()
 
         randomNumbers.sortWith( compareBy { it } )
         var sum = 0
@@ -62,6 +63,7 @@ fun main() {
         process.waitFor()
 
     } catch (e: Exception) {
+        process?.destroy()
         e.printStackTrace()
     }
 
