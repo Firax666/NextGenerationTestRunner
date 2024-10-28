@@ -10,7 +10,8 @@ const val NUMBERS_COUNT = 100
 
 class VerificationFailedException(message: String) : Exception(message)
 
-fun main() {    var process: Process? = null
+fun main() {
+    var process: Process? = null
 
     try {
 
@@ -44,7 +45,7 @@ fun main() {    var process: Process? = null
         writer.close()
         reader.close()
 
-        randomNumbers.sortWith( compareBy { it } )
+        randomNumbers.sort()
         var sum = 0
         for (i in randomNumbers) {
             println(i)
@@ -55,9 +56,9 @@ fun main() {    var process: Process? = null
         println("Average of numbers: $average")
 
         val median = if (randomNumbers.size % 2 == 1) {
-            randomNumbers[NUMBERS_COUNT/2 + 1]
+            randomNumbers[NUMBERS_COUNT / 2 + 1]
         } else {
-            (randomNumbers[NUMBERS_COUNT/2] + randomNumbers[NUMBERS_COUNT/2 + 1]) / 2.0
+            (randomNumbers[NUMBERS_COUNT / 2] + randomNumbers[NUMBERS_COUNT / 2 + 1]) / 2.0
         }
         println("Median of numbers: $median")
         process.waitFor()
