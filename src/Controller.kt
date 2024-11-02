@@ -5,17 +5,20 @@ import java.io.OutputStreamWriter
 
 val classpath = System.getProperty("java.class.path") ?: throw IllegalStateException("Classpath is not set")
 
-const val PROGRAM_A_NAME = "PseudoRngKt"
+const val PROGRAM_A_DEFAULT_NAME = "PseudoRngKt"
 const val NUMBERS_COUNT = 100
 
 class VerificationFailedException(message: String) : Exception(message)
 
-fun main() {
+fun main(args: Array<String>) {
     var process: Process? = null
-
+    val programAName = if (args.isEmpty())
+        PROGRAM_A_DEFAULT_NAME
+    else {
+        args[0]
+    }
     try {
-
-        val processBuilder = ProcessBuilder("java", "-cp", classpath, PROGRAM_A_NAME)
+        val processBuilder = ProcessBuilder("java", "-cp", classpath, programAName)
         process = processBuilder.start()
 
         val writer = BufferedWriter(OutputStreamWriter(process.outputStream))
@@ -29,12 +32,12 @@ fun main() {
 
         writeToProcess("Hi")
         if (reader.readLine() == "Hi")
-            println("Correct Response. PseudoRng program Verified.")
+            println("Correct Response. $programAName program Verified.")
         else {
             throw VerificationFailedException("Wrong response. The pseudoRng program failed verification")
         }
 
-        val randomNumbers: MutableList<Int> = ArrayList(100)
+        val randomNumbers: MutableList<Int> = ArrayList(NUMBERS_COUNT)
         repeat(NUMBERS_COUNT) {
             writeToProcess("GetRandom")
             val randomNumber = reader.readLine().toInt()
@@ -46,19 +49,15 @@ fun main() {
         reader.close()
 
         randomNumbers.sort()
-        var sum = 0
-        for (i in randomNumbers) {
-            println(i)
-            sum += i
-        }
+        randomNumbers.forEach { println(it) }
 
-        val average = sum / NUMBERS_COUNT
+        val average = randomNumbers.average()
         println("Average of numbers: $average")
 
         val median = if (randomNumbers.size % 2 == 1) {
             randomNumbers[NUMBERS_COUNT / 2 + 1]
         } else {
-            (randomNumbers[NUMBERS_COUNT / 2] + randomNumbers[NUMBERS_COUNT / 2 + 1]) / 2.0
+            (randomNumbers[NUMBERS_COUNT / 2] + randomNumbers[NUMBERS_COUNT / 2 - 1]) / 2.0
         }
         println("Median of numbers: $median")
         process.waitFor()
