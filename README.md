@@ -36,13 +36,12 @@ Calculate and print the median and average of the numbers.
    **Examples:**  
    _kotlinc .\src\PseudoRng.kt -include-runtime -d PseudoRng.jar_  
    _kotlinc .\src\Controller.kt -include-runtime -d Controller.jar_
-
     Then files can be run with command:  
    **For windows:**  
       _java -cp "<<NAME_OF_PROGRAM_B_JAR>>.jar;<<NAME_OF_PROGRAM_A_JAR>>.jar" <<NAME_OF_PROGRAM_B_CLASS>> <<(optional)NAME_OF_PROGRAM_A_CLASS>>_  
    **Example:**  
    _java -cp "Controller.jar;PseudoRng.jar" ControllerKt PseudoRngKt_  
-   **For linux/macOs:**
-   _java -cp "<<NAME_OF_PROGRAM_B_JAR>>.jar:<<NAME_OF_PROGRAM_A_JAR>>.jar" <<NAME_OF_PROGRAM_B_CLASS>> <<(optional)NAME_OF_PROGRAM_A_CLASS>>_
+   **For linux/macOs:**  
+   _java -cp "<<NAME_OF_PROGRAM_B_JAR>>.jar:<<NAME_OF_PROGRAM_A_JAR>>.jar" <<NAME_OF_PROGRAM_B_CLASS>> <<(optional)NAME_OF_PROGRAM_A_CLASS>>_  
    **Example:**  
    _java -cp "Controller.jar:PseudoRng.jar" ControllerKt PseudoRngKt_  
